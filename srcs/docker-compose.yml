@@ -2,7 +2,21 @@ version: "3"
 services:
     nginx:
         image: nginx:buster
+        volumes:
+          - ../volumes/nginx:/data
+        env_file:
+          - .env
         ports:
           - 443:443
         build:
             context: requirements/nginx/
+    mariadb:
+        image: mariadb:buster
+        volumes:
+          - ../volumes/mariadb:/var/lib/mysql
+        env_file:
+          - .env
+        ports:
+          - 3306:3306
+        build:
+            context: requirements/mariadb/

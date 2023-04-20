@@ -10,6 +10,9 @@ all: ${NAME}
 ${NAME}:
 	${COMPOSE} ${DOCKER_FLAGS} ${DOCKER_FILE} up --build -d
 
+debug:
+	${COMPOSE} ${DOCKER_FLAGS} ${DOCKER_FILE} up --build
+
 info:
 	@${DOCKER} images
 	@${COMPOSE} ${DOCKER_FLAGS} ${DOCKER_FILE} ps

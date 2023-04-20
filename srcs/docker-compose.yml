@@ -1,22 +1,36 @@
 version: "3"
 services:
-    nginx:
-        image: nginx:buster
-        volumes:
-          - ../volumes/nginx:/data
-        env_file:
-          - .env
-        ports:
-          - 443:443
-        build:
-            context: requirements/nginx/
     mariadb:
         image: mariadb:buster
+        expose:
+          - "3306"
         volumes:
           - ../volumes/mariadb:/var/lib/mysql
         env_file:
           - .env
-        ports:
-          - 3306:3306
         build:
             context: requirements/mariadb/
+    wordpress:
+        depends_on:
+          - mariadb
+        image: wordpress:buster
+        expose:
+          - "9000"
+        volumes:
+          - ../volumes/nginx:/var/www/html
+        env_file:
+          - .env
+        build:
+            context: requirements/wordpress/
+    nginx:
+        depends_on:
+          - wordpress
+        image: nginx:buster
+        ports:
+          - 443:443
+        volumes:
+          - ../volumes/nginx:/var/www/html
+        env_file:
+          - .env
+        build:
+            context: requirements/nginx/

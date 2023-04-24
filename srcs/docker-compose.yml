@@ -2,35 +2,38 @@ version: "3"
 services:
     mariadb:
         image: mariadb:buster
+        container_name: mariadb
         expose:
           - "3306"
         volumes:
           - ../volumes/mariadb:/var/lib/mysql
         env_file:
           - .env
-        build:
-            context: requirements/mariadb/
+        restart: always
+        build: requirements/mariadb/
     wordpress:
         depends_on:
           - mariadb
         image: wordpress:buster
+        container_name: wordpress
         expose:
           - "9000"
         volumes:
           - ../volumes/nginx:/var/www/html
         env_file:
           - .env
-        build:
-            context: requirements/wordpress/
+        restart: always
+        build: requirements/wordpress/
     nginx:
         depends_on:
           - wordpress
         image: nginx:buster
+        container_name: nginx
         ports:
           - 443:443
         volumes:
           - ../volumes/nginx:/var/www/html
         env_file:
           - .env
-        build:
-            context: requirements/nginx/
+        restart: always
+        build: requirements/nginx/

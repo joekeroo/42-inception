@@ -9,6 +9,7 @@ all: ${NAME}
 
 ${NAME}:
 	${COMPOSE} ${DOCKER_FLAGS} ${DOCKER_FILE} up --build -d
+	@${COMPOSE} ${DOCKER_FLAGS} ${DOCKER_FILE} ps
 
 debug:
 	${COMPOSE} ${DOCKER_FLAGS} ${DOCKER_FILE} up --build
@@ -18,7 +19,7 @@ info:
 	@${COMPOSE} ${DOCKER_FLAGS} ${DOCKER_FILE} ps
 
 clean:
-	${COMPOSE} ${DOCKER_FLAGS} ${DOCKER_FILE} down
+	${COMPOSE} ${DOCKER_FLAGS} ${DOCKER_FILE} down --rmi all
 
 fclean: clean
 	${DOCKER} system prune -f

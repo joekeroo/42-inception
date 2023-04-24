@@ -6,7 +6,7 @@ services:
         expose:
           - "3306"
         volumes:
-          - ../volumes/mariadb:/var/lib/mysql
+          - ../../volumes/mariadb:/var/lib/mysql
         env_file:
           - .env
         restart: always
@@ -19,7 +19,7 @@ services:
         expose:
           - "9000"
         volumes:
-          - ../volumes/nginx:/var/www/html
+          - ../../volumes/nginx:/var/www/html
         env_file:
           - .env
         restart: always
@@ -32,7 +32,7 @@ services:
         ports:
           - 443:443
         volumes:
-          - ../volumes/nginx:/var/www/html
+          - ../../volumes/nginx:/var/www/html
         env_file:
           - .env
         restart: always

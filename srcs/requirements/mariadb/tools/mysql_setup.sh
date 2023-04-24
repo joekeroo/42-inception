@@ -3,7 +3,6 @@
 if [ -d /var/lib/mysql/$MYSQL_DATABASE ]; then
 	echo "Database exists"
 else
-	mysql_install_db --user=mysql
 	echo "USE mysql;" > /tools/setup.sql
 	echo "DELETE FROM mysql.user WHERE User='';" >> /tools/setup.sql
 	echo "DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost');" >> /tools/setup.sql
@@ -19,8 +18,10 @@ else
 	echo "GRANT ALL PRIVILEGES ON $MYSQL_DATABASE.* TO '$MYSQL_ADMIN_USER'@'%' IDENTIFIED BY '$MYSQL_ADMIN_PASSWORD';" >> /tools/setup.sql
 	echo "FLUSH PRIVILEGES;" >> /tools/setup.sql
 
+	mysql_install_db --user=mysql
 	mysqld --user=mysql --bootstrap < /tools/setup.sql
-	sed -i "s#127.0.0.1#mariadb#" /etc/mysql/mariadb.conf.d/50-server.cnf
 fi
+
+sed -i "s#127.0.0.1#mariadb#" /etc/mysql/mariadb.conf.d/50-server.cnf
 
 exec "$@"

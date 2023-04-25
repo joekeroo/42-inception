@@ -26,4 +26,7 @@ fclean: clean
 
 re: fclean all
 
+rm volume:
+	@rm -rf ../volumes/
+
 .PHONY = all clean fclean re

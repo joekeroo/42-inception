@@ -6,7 +6,9 @@ services:
         expose:
           - "3306"
         volumes:
-          - ../../volumes/mariadb:/var/lib/mysql
+          - mariadb:/var/lib/mysql
+        networks:
+          - inception
         env_file:
           - .env
         restart: always
@@ -19,7 +21,9 @@ services:
         expose:
           - "9000"
         volumes:
-          - ../../volumes/nginx:/var/www/html
+          - nginx:/var/www/html
+        networks:
+          - inception
         env_file:
           - .env
         restart: always
@@ -32,8 +36,26 @@ services:
         ports:
           - 443:443
         volumes:
-          - ../../volumes/nginx:/var/www/html
+          - nginx:/var/www/html
+        networks:
+          - inception
         env_file:
           - .env
         restart: always
         build: requirements/nginx/
+volumes:
+    mariadb:
+        driver: local
+        driver_opts:
+            o: bind
+            type: none
+            device: $HOME/data/mariadb/
+    nginx:
+        driver: local
+        driver_opts:
+            o: bind
+            type: none
+            device: $HOME/data/nginx/
+networks:
+    inception:
+        driver: bridge
